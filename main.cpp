@@ -5,8 +5,8 @@ using namespace std;
 
 int main()
 {
-    Bignum prout;
+    Bignum prout(98);
 
-    cout << sizeof(unsigned long long int) << endl;
+    prout.display();
     return 0;
 }

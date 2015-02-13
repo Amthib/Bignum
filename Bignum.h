@@ -13,15 +13,23 @@ class Bignum
 {
 
     public:
-        Bignum(unsigned long long int);
+        Bignum(unsigned long long int base = 0, bool sign = false);
         //~Bignum();
 
+        void display();
+
         void operator+=(const Bignum& added);
+        void operator+=(const unsigned long long int& added);
 
     private:
         unsigned char A_Bignum[Max_Bignum];
         unsigned int A_Size;
-        bool A_Signed;
 };
+
+Bignum operator+(const Bignum& a, const Bignum& b);
+Bignum operator-(const Bignum& a, const Bignum& b);
+Bignum operator*(const Bignum& a, const Bignum& b);
+Bignum operator/(const Bignum& a, const Bignum& b);
+void display(Bignum number);
 
 #endif
