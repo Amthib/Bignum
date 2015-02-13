@@ -1,0 +1,9 @@
+diff a/Bignum.cpp b/Bignum.cpp	(rejected hunks)
+@@ -4,7 +4,6 @@
+  * Defines functions for Bignum class.
+  */
+ 
+- #include "Bignum.h"
+ #include "Bignum.h"
+ 
+ 

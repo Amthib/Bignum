@@ -6,6 +6,33 @@
 
 #include "Bignum.h"
 
+Bignum operator+(const Bignum& a, const Bignum& b)
+{
+    Bignum copie(a);
+    a += b;
+    return a;
+}
+
+Bignum operator-(const Bignum& a, const Bignum& b)
+{
+    Bignum copie(a);
+    a -= b;
+    return a;
+}
+
+Bignum operator*(const Bignum& a, const Bignum& b)
+{
+    Bignum copie(a);
+    a *= b;
+    return a;
+}
+
+Bignum operator/(const Bignum& a, const Bignum& b)
+{
+    Bignum copie(a);
+    a /= b;
+    return a;
+}
 
 Bignum::Bignum(unsigned long long int base = 0, bool sign = false) : A_Size(0), A_Bignum({0}), A_Signed(sign)
 {

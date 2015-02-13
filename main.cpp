@@ -1,9 +1,12 @@
 #include <iostream>
+#include "Bignum.h"
 
 using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
+    Bignum prout;
+
+    cout << sizeof(unsigned long long int) << endl;
     return 0;
 }
