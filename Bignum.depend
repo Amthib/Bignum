@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1423846632 source:f:\projet\amthib\bignum\bignum.cpp
+
+1423846630 source:f:\projet\amthib\bignum\main.cpp
+	<iostream>
+
