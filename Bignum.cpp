@@ -1,6 +1,11 @@
-<<<<<<< HEAD
+/** Bignum.cpp
+ * by Phacocherman
+ * 02/13/2015 | 02/13/2015
+ * Defines functions for Bignum class.
+ */
+
 #include "Bignum.h"
-/*
+
 Bignum operator+(const Bignum& a, const Bignum& b)
 {
     Bignum copie(a);
@@ -28,16 +33,6 @@ Bignum operator/(const Bignum& a, const Bignum& b)
     a /= b;
     return a;
 }
-*/
-=======
-/* Bignum.cpp
- * by Phacocherman
- * 02/13/2015 | 02/13/2015
- * Defines functions for Bignum class.
- */
-
-#include "Bignum.h"
-
 
 Bignum::Bignum(unsigned long long int base = 0, bool sign = false) : A_Size(0), A_Bignum({0}), A_Signed(sign)
 {
@@ -55,4 +50,3 @@ void Bignum::operator+=(const Bignum& added)
     unsigned char retenue;
 
 }
->>>>>>> origin/master
