@@ -4,6 +4,22 @@
  * Defines functions for Bignum class.
  */
 
- #include "Bignum.h"
+#include "Bignum.h"
 
- BIGNUM_H
+
+Bignum::Bignum(unsigned long long int base = 0, bool sign = false) : A_Size(0), A_Bignum({0}), A_Signed(sign)
+{
+
+}
+
+Bignum operator+()
+{
+
+}
+
+void Bignum::operator+=(const Bignum& added)
+{
+    unsigned int i = 0;
+    unsigned char retenue;
+
+}
