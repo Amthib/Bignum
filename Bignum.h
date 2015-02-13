@@ -13,15 +13,15 @@ class Bignum
 {
 
     public:
-        Bignum();
+        Bignum(unsigned long long int);
         //~Bignum();
 
-        operator+()
-        operator+=
+        void operator+=(const Bignum& added);
 
     private:
         unsigned char A_Bignum[Max_Bignum];
         unsigned int A_Size;
+        bool A_Signed;
 };
 
 #endif
