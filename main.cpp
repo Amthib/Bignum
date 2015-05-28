@@ -1,12 +1,15 @@
-#include <iostream>
 #include "Bignum.h"
 
 using namespace std;
 
 int main()
 {
-    Bignum prout(98);
+    unsigned long long int bite(11);
+    Bignum prout(16);
 
-    prout.display();
+    cout << prout;
+    prout += bite;
+    cout << prout;
+
     return 0;
 }

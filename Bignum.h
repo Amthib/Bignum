@@ -7,6 +7,8 @@
 #ifndef BIGNUM_H
 #define BIGNUM_H
 
+#include <iostream>
+
 #define Max_Bignum 1000000
 
 class Bignum
@@ -16,7 +18,7 @@ class Bignum
         Bignum(unsigned long long int base = 0, bool sign = false);
         //~Bignum();
 
-        void display();
+        std::ostream& display(std::ostream &flux)const;
 
         void operator+=(const Bignum& added);
         void operator+=(const unsigned long long int& added);
@@ -26,10 +28,12 @@ class Bignum
         unsigned int A_Size;
 };
 
+Bignum operator+(const Bignum& a, const unsigned long long int& added);
 Bignum operator+(const Bignum& a, const Bignum& b);
 Bignum operator-(const Bignum& a, const Bignum& b);
 Bignum operator*(const Bignum& a, const Bignum& b);
 Bignum operator/(const Bignum& a, const Bignum& b);
-void display(Bignum number);
+std::ostream& operator<<( std::ostream &flux, Bignum const& nb );
+std::ostream& display(Bignum number);
 
 #endif
