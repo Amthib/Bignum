@@ -4,11 +4,10 @@ using namespace std;
 
 int main()
 {
-    unsigned long long int bite(11);
-    Bignum prout(16);
+    Bignum prout(59), pipi(41);
 
     cout << prout;
-    prout += bite;
+    prout.operator=(operator+(prout, pipi));
     cout << prout;
 
     return 0;

@@ -16,23 +16,26 @@ class Bignum
 
     public:
         Bignum(unsigned long long int base = 0, bool sign = false);
+        Bignum(const Bignum& nb);
         //~Bignum();
 
         std::ostream& display(std::ostream &flux)const;
 
-        void operator+=(const Bignum& added);
-        void operator+=(const unsigned long long int& added);
+        void operator=(const unsigned long long int& added);
+        void operator=(const Bignum& b);
+        Bignum operator+=(const Bignum& added);
+        Bignum operator+=(const unsigned long long int& added);
 
     private:
         unsigned char A_Bignum[Max_Bignum];
         unsigned int A_Size;
 };
 
-Bignum operator+(const Bignum& a, const unsigned long long int& added);
-Bignum operator+(const Bignum& a, const Bignum& b);
-Bignum operator-(const Bignum& a, const Bignum& b);
-Bignum operator*(const Bignum& a, const Bignum& b);
-Bignum operator/(const Bignum& a, const Bignum& b);
+Bignum operator+(Bignum a, const unsigned long long int& added);
+Bignum operator+(Bignum a, const Bignum& b);
+Bignum operator-(Bignum a, const Bignum& b);
+Bignum operator*(Bignum a, const Bignum& b);
+Bignum operator/(Bignum a, const Bignum& b);
 std::ostream& operator<<( std::ostream &flux, Bignum const& nb );
 std::ostream& display(Bignum number);
 
