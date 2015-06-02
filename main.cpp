@@ -4,11 +4,15 @@ using namespace std;
 
 int main()
 {
-    Bignum prout(59), pipi(41);
+    unsigned long long int i(0);
+    Bignum prout(1);//, p(1);
 
-    cout << prout;
-    prout.operator=(operator+(prout, pipi));
-    cout << prout;
+    for(;; ++i)
+    {
+        if(i % 10000 == 0)
+            cout << prout;
+        prout += prout;
+    }
 
     return 0;
 }

@@ -8,8 +8,9 @@
 #define BIGNUM_H
 
 #include <iostream>
+#include <vector>
 
-#define Max_Bignum 1000000
+//#define Max_Bignum 1000000
 
 class Bignum
 {
@@ -23,20 +24,20 @@ class Bignum
 
         void operator=(const unsigned long long int& added);
         void operator=(const Bignum& b);
-        Bignum operator+=(const Bignum& added);
-        Bignum operator+=(const unsigned long long int& added);
+        void operator+=(const Bignum& added);
+        void operator+=(unsigned long long int added);
 
     private:
-        unsigned char A_Bignum[Max_Bignum];
-        unsigned int A_Size;
+        std::vector<unsigned char> A_Bignum;
 };
 
 Bignum operator+(Bignum a, const unsigned long long int& added);
 Bignum operator+(Bignum a, const Bignum& b);
+Bignum operator-(Bignum a, const unsigned long long int& added);
 Bignum operator-(Bignum a, const Bignum& b);
 Bignum operator*(Bignum a, const Bignum& b);
 Bignum operator/(Bignum a, const Bignum& b);
 std::ostream& operator<<( std::ostream &flux, Bignum const& nb );
-std::ostream& display(Bignum number);
+void display(Bignum number);
 
 #endif
