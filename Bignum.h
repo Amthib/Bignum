@@ -1,6 +1,6 @@
 /** Bignum.h
  * by Blackwolffire
- * 02/13/2015 | 06/02/2015
+ * 02/13/2015 | 06/007/2015
  * Declaration of Bignum class
  */
 
@@ -32,21 +32,21 @@ class Bignum
         bool operator<=(const Bignum& nb) const;
         bool operator>=(const unsigned long long int& nb) const;
         bool operator>=(const Bignum& nb) const;
-        void operator+=(const Bignum& added);
-        void operator+=(unsigned long long int added);
-        void operator-=(const Bignum& substracted);
-        void operator-=(unsigned long long int substracted);
+        void operator+=(const Bignum& nb);
+        void operator+=(unsigned long long int nb);
+        void operator-=(const Bignum& nb);
+        void operator-=(unsigned long long int nb);
 
-        std::ostream& display(std::ostream &flux)const;
+        std::ostream& display(std::ostream &flux) const;
 
     private:
         std::vector<unsigned char> A_Bignum;
         bool A_IsSigned;
 };
 
-Bignum operator+(Bignum a, const unsigned long long int& added);
+Bignum operator+(Bignum a, const unsigned long long int& b);
 Bignum operator+(Bignum a, const Bignum& b);
-Bignum operator-(Bignum a, const unsigned long long int& added);
+Bignum operator-(Bignum a, const unsigned long long int& b);
 Bignum operator-(Bignum a, const Bignum& b);
 Bignum operator*(Bignum a, const Bignum& b);
 Bignum operator/(Bignum a, const Bignum& b);

@@ -1,6 +1,6 @@
 /** Bignum.cpp
  * by Phacocherman
- * 02/13/2015 | 06/02/2015
+ * 02/13/2015 | 06/007/2015
  * Defines functions for Bignum class.
  */
 
@@ -12,21 +12,21 @@ Bignum operator+(Bignum a, const Bignum& b)
     return a;
 }
 
-Bignum operator+(Bignum a, const unsigned long long int& added)
+Bignum operator+(Bignum a, const unsigned long long int& b)
 {
-    a += added;
+    a += b;
     return a;
 }
 
-Bignum operator-(Bignum a, const unsigned long long int& added)
+Bignum operator-(Bignum a, const unsigned long long int& b)
 {
-    a += added;
+    a -= b;
     return a;
 }
 
 Bignum operator-(Bignum a, const Bignum& b)
 {
-    a += b;
+    a -= b;
     return a;
 }
 
@@ -84,7 +84,10 @@ std::ostream& Bignum::display(std::ostream &flux) const
 {
     flux << A_Bignum.size() << '\n';
 
-    for(int i = A_Bignum.size() - 1; i >= 0; --i)
+    if(A_IsSigned)
+        flux << '-';
+
+    for(long long int i = A_Bignum.size() - 1; i >= 0; --i)
         flux <<  static_cast<uint16_t>(A_Bignum[i]);
     flux << '\n';
 
@@ -130,7 +133,7 @@ bool Bignum::operator==(const Bignum& nb) const
 
 bool Bignum::operator<(const unsigned long long int& nb) const
 {
-    if(A_Bignum.size() > 20 || A_Bignum.size() == 20 && A_Bignum.back() > 1)
+    if(A_Bignum.size() > 20 || (A_Bignum.size() == 20 && A_Bignum.back() > 1))
         return false;
 
     if(nb / pow_int(10, A_Bignum.size() - 1) > 9)
@@ -197,116 +200,149 @@ void Bignum::operator+=(unsigned long long int nb)
     unsigned int i;
     unsigned char retenue(0), value(0);
 
-    for(i = 0; nb > 0 || retenue > 0; ++i)
+    if(A_IsSigned)
     {
-        if(i >= A_Bignum.size())
+        A_IsSigned = false;
+        *this -= nb;
+        A_IsSigned = !A_IsSigned;
+    }
+    else
+    {
+        for(i = 0; nb > 0 || retenue > 0; ++i)
         {
-            value = nb % 10 + retenue;
-            A_Bignum.push_back(value % 10);
+            if(i >= A_Bignum.size())
+            {
+                value = nb % 10 + retenue;
+                A_Bignum.push_back(value % 10);
+            }
+            else
+            {
+                value = A_Bignum[i] + nb % 10 + retenue;
+                A_Bignum[i] = value % 10;
+            }
+            retenue = value / 10;
+            nb /= 10;
         }
-        else
-        {
-            value = A_Bignum[i] + nb % 10 + retenue;
-            A_Bignum[i] = value % 10;
-        }
-        retenue = value / 10;
-        nb /= 10;
     }
 }
 
 void Bignum::operator+=(const Bignum& nb)
 {
-    unsigned int i = 0;
+    unsigned long long int i = 0;
     unsigned char retenue = 0;
     unsigned char value;
 
-    for(i = 0; i < nb.A_Bignum.size(); ++i)
+    if(A_IsSigned != nb.A_IsSigned)
     {
-        if(i >= A_Bignum.size())
-        {
-            value = nb.A_Bignum[i] + retenue;
-            A_Bignum.push_back(value % 10);
-        }
-        else
-        {
-            value = A_Bignum[i] + nb.A_Bignum[i] + retenue;
-            A_Bignum[i] = value % 10;
-        }
-        retenue = value / 10;
+        A_IsSigned = !A_IsSigned;
+        *this -= nb;
+        A_IsSigned = !A_IsSigned;
     }
-    for(; retenue > 0; ++i)
+    else
     {
-        if(i >= A_Bignum.size())
+        for(i = 0; i < nb.A_Bignum.size(); ++i)
         {
-            value = retenue;
-            A_Bignum.push_back(value % 10);
+            if(i >= A_Bignum.size())
+            {
+                value = nb.A_Bignum[i] + retenue;
+                A_Bignum.push_back(value % 10);
+            }
+            else
+            {
+                value = A_Bignum[i] + nb.A_Bignum[i] + retenue;
+                A_Bignum[i] = value % 10;
+            }
+            retenue = value / 10;
         }
-        else
+        for(; retenue > 0; ++i)
         {
-            value = A_Bignum[i] + retenue;
-            A_Bignum[i] = value % 10;
+            if(i >= A_Bignum.size())
+            {
+                value = retenue;
+                A_Bignum.push_back(value % 10);
+            }
+            else
+            {
+                value = A_Bignum[i] + retenue;
+                A_Bignum[i] = value % 10;
+            }
+            retenue = value / 10;
         }
-        retenue = value / 10;
     }
 }
 
 void Bignum::operator-=(unsigned long long int nb)
 {
-    unsigned int i;
-    unsigned char retenue(0), value(0);
+    unsigned long long int masking(1);
+    Bignum cp;
 
-    for(i = 0; nb > 0 || retenue > 0; ++i)
+    if(A_IsSigned)
     {
-        if(i >= A_Bignum.size())
+        A_IsSigned = false;
+        *this += nb;
+        A_IsSigned = true;
+    }
+    else
+    {
+        if(*this < nb)
         {
-            value = nb % 10 + retenue;
-            A_Bignum.push_back(value % 10);
+            cp = nb;
+            cp -= *this;
+            *this = cp;
+            A_IsSigned = true;
         }
         else
         {
-            value = A_Bignum[i] + nb % 10 + retenue;
-            A_Bignum[i] = value % 10;
+            for(unsigned long long int i(0); i < A_Bignum.size(); ++i, masking *= 10)
+            {
+                if((nb / masking) % 10 > A_Bignum[i])
+                {
+                    A_Bignum[i] += 10;
+                    nb += masking * 10;
+                }
+                A_Bignum[i] -= (nb / masking) % 10;
+            }
         }
-        retenue = value / 10;
-        nb /= 10;
     }
 }
 
 void Bignum::operator-=(const Bignum& nb)
 {
-    unsigned int i = 0;
-    unsigned char retenue = 0;
-    unsigned char value;
+    Bignum cp;
 
-    for(i = 0; i < nb.A_Bignum.size(); ++i)
+    if(A_IsSigned != nb.A_IsSigned)
     {
-        if(i >= A_Bignum.size())
-        {
-            value = nb.A_Bignum[i] + retenue;
-            A_Bignum.push_back(value % 10);
-        }
-        else
-        {
-            value = A_Bignum[i] + nb.A_Bignum[i] + retenue;
-            A_Bignum[i] = value % 10;
-        }
-        retenue = value / 10;
+        A_IsSigned = !A_IsSigned;
+        *this += nb;
+        A_IsSigned = !A_IsSigned;
     }
-    for(; retenue > 0; ++i)
+    else
     {
-        if(i >= A_Bignum.size())
+        if(*this < nb)
         {
-            value = retenue;
-            A_Bignum.push_back(value % 10);
+            cp = *this;
+            *this = nb;
+            A_IsSigned = !A_IsSigned;
         }
         else
+            cp = nb;
+
+        for(unsigned long long int i(0); i < cp.A_Bignum.size(); ++i)
         {
-            value = A_Bignum[i] + retenue;
-            A_Bignum[i] = value % 10;
+            if(A_Bignum[i] < cp.A_Bignum[i])
+            {
+                A_Bignum[i] += 10;
+                ++cp.A_Bignum[i + 1];
+            }
+            A_Bignum[i] -= cp.A_Bignum[i];
         }
-        retenue = value / 10;
     }
 }
+
+
+
+
+
 
 
 

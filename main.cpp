@@ -4,13 +4,14 @@ using namespace std;
 
 int main()
 {
-    unsigned long long int i(0);
-    Bignum prout(256), p(255);
+    unsigned long long int i(198);
+    Bignum prout(99), p(1000);
 
-    if(prout <= p)
-        cout << "vrai\n";
-    else
-        cout << "faux!\n";
+    cout << prout;
+
+    prout = prout - i;
+
+    cout << prout;
 
     return 0;
 }
