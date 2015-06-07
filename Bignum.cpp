@@ -192,44 +192,44 @@ bool Bignum::operator>=(const Bignum& nb) const
     return !(*this < nb);
 }
 
-void Bignum::operator+=(unsigned long long int added)
+void Bignum::operator+=(unsigned long long int nb)
 {
     unsigned int i;
     unsigned char retenue(0), value(0);
 
-    for(i = 0; added > 0 || retenue > 0; ++i)
+    for(i = 0; nb > 0 || retenue > 0; ++i)
     {
         if(i >= A_Bignum.size())
         {
-            value = added % 10 + retenue;
+            value = nb % 10 + retenue;
             A_Bignum.push_back(value % 10);
         }
         else
         {
-            value = A_Bignum[i] + added % 10 + retenue;
+            value = A_Bignum[i] + nb % 10 + retenue;
             A_Bignum[i] = value % 10;
         }
         retenue = value / 10;
-        added /= 10;
+        nb /= 10;
     }
 }
 
-void Bignum::operator+=(const Bignum& added)
+void Bignum::operator+=(const Bignum& nb)
 {
     unsigned int i = 0;
     unsigned char retenue = 0;
     unsigned char value;
 
-    for(i = 0; i < added.A_Bignum.size(); ++i)
+    for(i = 0; i < nb.A_Bignum.size(); ++i)
     {
         if(i >= A_Bignum.size())
         {
-            value = added.A_Bignum[i] + retenue;
+            value = nb.A_Bignum[i] + retenue;
             A_Bignum.push_back(value % 10);
         }
         else
         {
-            value = A_Bignum[i] + added.A_Bignum[i] + retenue;
+            value = A_Bignum[i] + nb.A_Bignum[i] + retenue;
             A_Bignum[i] = value % 10;
         }
         retenue = value / 10;
@@ -250,44 +250,44 @@ void Bignum::operator+=(const Bignum& added)
     }
 }
 
-void Bignum::operator-=(unsigned long long int added)
+void Bignum::operator-=(unsigned long long int nb)
 {
     unsigned int i;
     unsigned char retenue(0), value(0);
 
-    for(i = 0; added > 0 || retenue > 0; ++i)
+    for(i = 0; nb > 0 || retenue > 0; ++i)
     {
         if(i >= A_Bignum.size())
         {
-            value = added % 10 + retenue;
+            value = nb % 10 + retenue;
             A_Bignum.push_back(value % 10);
         }
         else
         {
-            value = A_Bignum[i] + added % 10 + retenue;
+            value = A_Bignum[i] + nb % 10 + retenue;
             A_Bignum[i] = value % 10;
         }
         retenue = value / 10;
-        added /= 10;
+        nb /= 10;
     }
 }
 
-void Bignum::operator-=(const Bignum& added)
+void Bignum::operator-=(const Bignum& nb)
 {
     unsigned int i = 0;
     unsigned char retenue = 0;
     unsigned char value;
 
-    for(i = 0; i < added.A_Bignum.size(); ++i)
+    for(i = 0; i < nb.A_Bignum.size(); ++i)
     {
         if(i >= A_Bignum.size())
         {
-            value = added.A_Bignum[i] + retenue;
+            value = nb.A_Bignum[i] + retenue;
             A_Bignum.push_back(value % 10);
         }
         else
         {
-            value = A_Bignum[i] + added.A_Bignum[i] + retenue;
+            value = A_Bignum[i] + nb.A_Bignum[i] + retenue;
             A_Bignum[i] = value % 10;
         }
         retenue = value / 10;
