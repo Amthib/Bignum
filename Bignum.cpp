@@ -102,6 +102,7 @@ void Bignum::operator=(const unsigned long long int& nb)
 
 void Bignum::operator=(const Bignum& nb)
 {
+    A_IsSigned = nb.A_IsSigned;
     A_Bignum.resize(nb.A_Bignum.size());
     for(unsigned int i = 0; i < nb.A_Bignum.size(); ++i)
         A_Bignum[i] = nb.A_Bignum[i];
