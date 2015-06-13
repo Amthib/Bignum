@@ -4,12 +4,10 @@ using namespace std;
 
 int main()
 {
-    unsigned long long int i(198);
-    Bignum prout(99), p(1000);
+    unsigned long long int i(3);
+    Bignum prout(3), p(198);
 
-    cout << prout;
-
-    prout = prout - i;
+    cout << prout++;
 
     cout << prout;
 

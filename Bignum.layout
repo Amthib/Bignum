@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+	<File name="Bignum.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="176" topLine="0" />
+			<Cursor1 position="8987" topLine="83" />
+		</Cursor>
+		<Folding>
+			<Collapse line="9" />
+			<Collapse line="15" />
+			<Collapse line="21" />
+			<Collapse line="27" />
+			<Collapse line="33" />
+			<Collapse line="39" />
+			<Collapse line="45" />
+			<Collapse line="50" />
+			<Collapse line="55" />
+			<Collapse line="67" />
+			<Collapse line="74" />
+			<Collapse line="81" />
+			<Collapse line="98" />
+			<Collapse line="105" />
+			<Collapse line="113" />
+			<Collapse line="127" />
+			<Collapse line="137" />
+			<Collapse line="156" />
+			<Collapse line="171" />
+			<Collapse line="176" />
+			<Collapse line="181" />
+			<Collapse line="186" />
+			<Collapse line="191" />
+			<Collapse line="196" />
+			<Collapse line="201" />
+			<Collapse line="236" />
+			<Collapse line="285" />
+			<Collapse line="324" />
+		</Folding>
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="150" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Bignum.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1300" topLine="0" />
+			<Cursor1 position="1405" topLine="15" />
 		</Cursor>
-	</File>
-	<File name="Bignum.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6655" topLine="117" />
-		</Cursor>
-		<Folding>
-			<Collapse line="9" />
-			<Collapse line="49" />
-			<Collapse line="54" />
-			<Collapse line="59" />
-			<Collapse line="71" />
-			<Collapse line="76" />
-			<Collapse line="83" />
-			<Collapse line="97" />
-			<Collapse line="103" />
-			<Collapse line="111" />
-			<Collapse line="125" />
-			<Collapse line="135" />
-			<Collapse line="154" />
-			<Collapse line="169" />
-			<Collapse line="174" />
-			<Collapse line="179" />
-			<Collapse line="184" />
-			<Collapse line="189" />
-			<Collapse line="194" />
-			<Collapse line="199" />
-			<Collapse line="230" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>

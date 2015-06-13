@@ -32,10 +32,17 @@ class Bignum
         bool operator<=(const Bignum& nb) const;
         bool operator>=(const unsigned long long int& nb) const;
         bool operator>=(const Bignum& nb) const;
-        void operator+=(const Bignum& nb);
+
         void operator+=(unsigned long long int nb);
-        void operator-=(const Bignum& nb);
+        void operator+=(const Bignum& nb);
         void operator-=(unsigned long long int nb);
+        void operator-=(const Bignum& nb);
+        void operator*=(const unsigned long long int& nb);
+        void operator*=(const Bignum& nb);
+        Bignum& operator++();
+        Bignum& operator++(int);
+        Bignum& operator--();
+        Bignum& operator--(int);
 
         std::ostream& display(std::ostream &flux) const;
 
@@ -48,8 +55,10 @@ Bignum operator+(Bignum a, const unsigned long long int& b);
 Bignum operator+(Bignum a, const Bignum& b);
 Bignum operator-(Bignum a, const unsigned long long int& b);
 Bignum operator-(Bignum a, const Bignum& b);
+Bignum operator*(Bignum a, const unsigned long long int& b);
 Bignum operator*(Bignum a, const Bignum& b);
-Bignum operator/(Bignum a, const Bignum& b);
+
+/// / % !=  pow >> (= string)
 
 std::ostream& operator<<( std::ostream &flux, Bignum const& nb );
 void display(Bignum number);
