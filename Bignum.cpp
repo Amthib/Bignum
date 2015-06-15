@@ -54,6 +54,18 @@ Bignum operator/(Bignum a, const Bignum& b)
     return a;
 }
 
+Bignum operator%(Bignum a, const unsigned long long int& b)
+{
+    a %= b;
+    return a;
+}
+
+Bignum operator%(Bignum a, const Bignum& b)
+{
+    a %= b;
+    return a;
+}
+
 std::ostream& operator<<( std::ostream &flux, Bignum const& nb )
 {
     return nb.display(flux);
@@ -124,7 +136,10 @@ void Bignum::operator=(const Bignum& nb)
 
 bool Bignum::operator==(unsigned long long int nb) const
 {
-    unsigned int i;
+    unsigned char i;
+
+    if(A_IsSigned)
+        return false;
 
     for(i = 0; nb > 0; ++i, nb /= 10)
         if(i >= A_Bignum.size() || A_Bignum[i] != nb % 10)
@@ -183,22 +198,21 @@ bool Bignum::operator<(const Bignum& nb) const
     bool result;
 
     if(A_IsSigned != nb.A_IsSigned)
-    {
-        if(A_IsSigned)
-            return
-    }
+        return A_IsSigned;
+
+    result = !A_IsSigned;
 
     if(A_Bignum.size() < nb.A_Bignum.size())
-        return true;
+        return result;
     else if(A_Bignum.size() > nb.A_Bignum.size())
-        return false;
+        return !result;
 
     for(unsigned long long int i = 1; i <= A_Bignum.size(); ++i)
         if(A_Bignum[A_Bignum.size() - i] < nb.A_Bignum[A_Bignum.size() - i])
-            return true;
+            return result;
         else if(A_Bignum[A_Bignum.size() - i] > nb.A_Bignum[A_Bignum.size() - i])
-            return false;
-    return false;
+            return !result;
+    return !result;
 }
 
 bool Bignum::operator>(const unsigned long long int& nb) const
@@ -403,7 +417,7 @@ void Bignum::operator*=(const unsigned long long int& nb)
         *this += cp;
 }
 
-void Bignum::operator*=(const Bignum& nb)
+void Bignum::operator*=(const Bignum nb)
 {
     Bignum cp(*this);
     *this = 0;
@@ -417,34 +431,46 @@ void Bignum::operator*=(const Bignum& nb)
 
 void Bignum::operator/=(const unsigned long long int& nb)
 {
-    Bignum cp(nb);
+    Bignum cp(nb), i(0);
     bool cpIsSigned = A_IsSigned;
 
     A_IsSigned = false;
 
-    for(Bignum i(0); cp < *this; ++i)
+    for(; cp <= *this; ++i)
         cp += nb;
 
     *this = i;
     A_IsSigned = cpIsSigned;
+    if(A_Bignum.size() <= 0)
+        A_IsSigned = false;
 }
 
-void Bignum::operator/=(const Bignum& nb)
+void Bignum::operator/=(Bignum nb)
 {
-    Bignum cp(nb), cpDivisor(nb);
+    Bignum cp(nb), i(0);
     bool cpIsSigned = A_IsSigned;
+    bool cpNBIsSigned = nb.A_IsSigned;
 
-    cpDivisor.A_IsSigned = false;
+    nb.A_IsSigned = false;
     cp.A_IsSigned = false;
 
     A_IsSigned = false;
 
-    for(Bignum i(0); cp < *this; ++i)
+    for(; cp <= *this; ++i)
         cp += nb;
-
     *this = i;
 
-    A_IsSigned = cpIsSigned && !nb.A_IsSigned && A_Bignum.size() > 0;
+    A_IsSigned = (cpIsSigned ^ cpNBIsSigned) && A_Bignum.size() > 0;
+}
+
+void Bignum::operator%=(const unsigned long long int& nb)
+{
+
+}
+
+void Bignum::operator%=(const Bignum& nb)
+{
+
 }
 
 Bignum& Bignum::operator++()

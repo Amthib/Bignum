@@ -4,11 +4,16 @@ using namespace std;
 
 int main()
 {
-    unsigned long long int i(99);
-    Bignum prout(3), p(198);
+    unsigned long long int i(0);
+    Bignum prout(2), p(2);
 
-    cout << prout++;
-    cout << ++prout;
+    for(;;++i)
+    {
+        if(i % 1 == 0)
+            cout << prout;
+        prout *= 512;
+        p *= prout;
+    }
 
     return 0;
 }
