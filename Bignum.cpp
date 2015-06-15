@@ -1,6 +1,6 @@
 /** Bignum.cpp
  * by Phacocherman
- * 02/13/2015 | 06/13/2015
+ * 02/13/2015 | 06/15/2015
  * Defines functions for Bignum class.
  */
 
@@ -39,6 +39,18 @@ Bignum operator*(Bignum a, const unsigned long long int& b)
 Bignum operator*(Bignum a, const Bignum& b)
 {
     a *= b;
+    return a;
+}
+
+Bignum operator/(Bignum a, const unsigned long long int& b)
+{
+    a /= b;
+    return a;
+}
+
+Bignum operator/(Bignum a, const Bignum& b)
+{
+    a /= b;
     return a;
 }
 
@@ -134,8 +146,21 @@ bool Bignum::operator==(const Bignum& nb) const
     return true;
 }
 
+bool Bignum::operator!=(unsigned long long int nb) const
+{
+    return !(*this == nb);
+}
+
+bool Bignum::operator!=(const Bignum& nb) const
+{
+    return !(*this == nb);
+}
+
 bool Bignum::operator<(const unsigned long long int& nb) const
 {
+    if(A_IsSigned)
+        return true;
+
     if(A_Bignum.size() > 20 || (A_Bignum.size() == 20 && A_Bignum.back() > 1))
         return false;
 
@@ -155,6 +180,14 @@ bool Bignum::operator<(const unsigned long long int& nb) const
 
 bool Bignum::operator<(const Bignum& nb) const
 {
+    bool result;
+
+    if(A_IsSigned != nb.A_IsSigned)
+    {
+        if(A_IsSigned)
+            return
+    }
+
     if(A_Bignum.size() < nb.A_Bignum.size())
         return true;
     else if(A_Bignum.size() > nb.A_Bignum.size())
@@ -364,6 +397,7 @@ void Bignum::operator-=(const Bignum& nb)
 void Bignum::operator*=(const unsigned long long int& nb)
 {
     Bignum cp(*this);
+    *this = 0;
 
     for(unsigned long long int i = 0; i < nb; ++i)
         *this += cp;
@@ -372,12 +406,45 @@ void Bignum::operator*=(const unsigned long long int& nb)
 void Bignum::operator*=(const Bignum& nb)
 {
     Bignum cp(*this);
+    *this = 0;
 
     for(Bignum i(0); i < nb; ++i)
         *this += cp;
 
-    if(nb.A_IsSigned)
+    if(nb.A_IsSigned && A_Bignum.size() > 0)
         A_IsSigned = !A_IsSigned;
+}
+
+void Bignum::operator/=(const unsigned long long int& nb)
+{
+    Bignum cp(nb);
+    bool cpIsSigned = A_IsSigned;
+
+    A_IsSigned = false;
+
+    for(Bignum i(0); cp < *this; ++i)
+        cp += nb;
+
+    *this = i;
+    A_IsSigned = cpIsSigned;
+}
+
+void Bignum::operator/=(const Bignum& nb)
+{
+    Bignum cp(nb), cpDivisor(nb);
+    bool cpIsSigned = A_IsSigned;
+
+    cpDivisor.A_IsSigned = false;
+    cp.A_IsSigned = false;
+
+    A_IsSigned = false;
+
+    for(Bignum i(0); cp < *this; ++i)
+        cp += nb;
+
+    *this = i;
+
+    A_IsSigned = cpIsSigned && !nb.A_IsSigned && A_Bignum.size() > 0;
 }
 
 Bignum& Bignum::operator++()
@@ -386,9 +453,24 @@ Bignum& Bignum::operator++()
     return *this;
 }
 
-Bignum& Bignum::operator++(int)
+Bignum Bignum::operator++(int)
 {
-    return ++(*this);
+    Bignum cp(*this);
+    ++(*this);
+    return cp;
+}
+
+Bignum& Bignum::operator--()
+{
+    *this -= 1;
+    return *this;
+}
+
+Bignum Bignum::operator--(int)
+{
+    Bignum cp(*this);
+    --(*this);
+    return cp;
 }
 
 
