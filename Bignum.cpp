@@ -1,6 +1,6 @@
 /** Bignum.cpp
  * by Phacocherman
- * 02/13/2015 | 06/15/2015
+ * 02/13/2015 | 07/15/2015
  * Defines functions for Bignum class.
  */
 
@@ -410,23 +410,43 @@ void Bignum::operator-=(const Bignum& nb)
 
 void Bignum::operator*=(const unsigned long long int& nb)
 {
-    Bignum cp(*this);
-    *this = 0;
-
-    for(unsigned long long int i = 0; i < nb; ++i)
-        *this += cp;
+    Bignum cp_nb(nb);
+    *this *= cp_nb;
 }
 
 void Bignum::operator*=(const Bignum nb)
 {
-    Bignum cp(*this);
+    unsigned char value, retenue;
+    Bignum cp(*this), *tab;
     *this = 0;
 
+    /*
+    c'est de la merde ça pour multiplier
     for(Bignum i(0); i < nb; ++i)
         *this += cp;
+    */
 
-    if(nb.A_IsSigned && A_Bignum.size() > 0)
-        A_IsSigned = !A_IsSigned;
+    tab = new Bignum[nb.A_Bignum.size()];
+
+    for(unsigned long long int  i(0); i < nb.A_Bignum.size(); ++i){
+        retenue = 0;
+        for(unsigned long long int j(0); j < i; ++j)
+            tab[i].A_Bignum.push_back(0);
+        for(unsigned long long int j(0); j < cp.A_Bignum.size(); ++j){
+
+            value = nb.A_Bignum[i] * cp.A_Bignum[j] + retenue;
+            tab[i].A_Bignum.push_back(value % 10);
+            retenue = value / 10;
+            //std::cout << "value " << static_cast<unsigned short int>(value) << std::endl;
+        }
+        if(retenue)
+            tab[i].A_Bignum.push_back(retenue);
+    }
+
+    for(unsigned long long int  i(0); i < nb.A_Bignum.size(); ++i)
+        *this += tab[i];
+
+    A_IsSigned = A_Bignum.size() && ((cp.A_IsSigned || nb.A_IsSigned) && !(cp.A_IsSigned && nb.A_IsSigned));
 }
 
 void Bignum::operator/=(const unsigned long long int& nb)
