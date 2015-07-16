@@ -451,36 +451,53 @@ void Bignum::operator*=(const Bignum nb)
 
 void Bignum::operator/=(const unsigned long long int& nb)
 {
-    Bignum cp(nb), i(0);
-    bool cpIsSigned = A_IsSigned;
-
-    A_IsSigned = false;
-
-    for(; cp <= *this; ++i)
-        cp += nb;
-
-    *this = i;
-    A_IsSigned = cpIsSigned;
-    if(A_Bignum.size() <= 0)
-        A_IsSigned = false;
+    Bignum cp_nb(nb);
+    *this /= cp_nb;
 }
 
 void Bignum::operator/=(Bignum nb)
 {
-    Bignum cp(nb), i(0);
-    bool cpIsSigned = A_IsSigned;
-    bool cpNBIsSigned = nb.A_IsSigned;
+    bool cpSign(A_IsSigned), cpNbSign(nb.A_IsSigned), zero(false);
+    unsigned long long int dividand;
+    Bignum cp(*this), change;
+    *this = 0;
 
-    nb.A_IsSigned = false;
-    cp.A_IsSigned = false;
+    cp.A_IsSigned = nb.A_IsSigned = false;
 
-    A_IsSigned = false;
+    while(cp.A_Bignum.size() > 0 && cp > nb){
+        dividand = 0;
+        change = 0;
 
-    for(; cp <= *this; ++i)
-        cp += nb;
-    *this = i;
+        if(cp.A_Bignum[cp.A_Bignum.size() - 1] != 0)
+            while(cp.A_Bignum.size() > 0 && change < nb){
+                change = change * 10 + cp.A_Bignum[cp.A_Bignum.size() - 1];
+                cp.A_Bignum.pop_back();
+            }
+        else{
+            while(cp.A_Bignum.size() > 0 && cp.A_Bignum[cp.A_Bignum.size() - 1] == 0){
+                change.A_Bignum.push_back(0);
+                cp.A_Bignum.pop_back();
+            }
+            zero = true;
+        }
 
-    A_IsSigned = (cpIsSigned ^ cpNBIsSigned) && A_Bignum.size() > 0;
+        if(zero){
+            *this *= pow_int(10, change.A_Bignum.size());
+            zero = false;
+        }else{
+            while(change >= nb){
+                change -= nb;
+                ++dividand;
+            }
+            *this = (*this) * 10 + dividand;
+
+            if(change != 0)
+                for(unsigned long long int i(0); i < change.A_Bignum.size(); ++i)
+                    cp.A_Bignum.push_back(change.A_Bignum[i]);
+        }
+    }
+
+    A_IsSigned = A_Bignum.size() && ((cpSign || cpNbSign) && !(cpSign && cpNbSign));
 }
 
 void Bignum::operator%=(const unsigned long long int& nb)

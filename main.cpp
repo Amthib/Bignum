@@ -5,14 +5,20 @@ using namespace std;
 int main()
 {
     unsigned long long int i(0);
-    Bignum prout(10000000000000);
+    Bignum prout(260004);
 
-    //for(;;++i)
-    //{
+    cout << prout;
+    prout /= 2;
+    cout << prout;
+
+    /*for(;;++i)
+    {
         cout << prout;
-        prout *= 200000000000000;
-        cout << prout;
-    //}
+        if(prout > 1000000000)
+            prout /= 2;
+        else
+            prout *= 2;
+    }*/
 
     return 0;
 }
