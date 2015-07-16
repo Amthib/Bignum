@@ -53,6 +53,7 @@ class Bignum
         std::istream& enter(std::istream &flux);
         void BigPow(unsigned long long int exponent);
         void BigPow(Bignum exponent);
+        unsigned long long int getSize(){return A_Bignum.size();}
 
     private:
         std::vector<unsigned char> A_Bignum;

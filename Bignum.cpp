@@ -78,7 +78,9 @@ std::istream& operator>>( std::istream &flux, Bignum& nb )
 
 void display(Bignum number)
 {
+    std::cout << number.getSize() << '\n';
     number.display(std::cout);
+    std::cout << '\n';
 }
 
 unsigned long long int pow_int(const unsigned long long int& base, const unsigned int& exponent)
@@ -111,8 +113,6 @@ Bignum::Bignum(const Bignum& nb) : A_IsSigned(nb.A_IsSigned)
 
 std::ostream& Bignum::display(std::ostream &flux) const
 {
-    flux << A_Bignum.size() << '\n';
-
     if(A_IsSigned)
         flux << '-';
 
@@ -121,7 +121,6 @@ std::ostream& Bignum::display(std::ostream &flux) const
             flux <<  static_cast<uint16_t>(A_Bignum[i]);
     else
         flux << 0;
-    flux << '\n';
 
     return flux;
 }

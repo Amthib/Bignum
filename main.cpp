@@ -7,9 +7,9 @@ int main()
     unsigned long long int i(0);
     Bignum prout(50);
 
-    cout <<prout;
+    display(prout);
     cin >> prout;
-    cout << prout;
+    display(prout);
 
     return 0;
 }
