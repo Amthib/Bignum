@@ -1,6 +1,6 @@
 /** Bignum.cpp
  * by Phacocherman
- * 02/13/2015 | 07/15/2015
+ * 02/13/2015 | 07/16/2015
  * Defines functions for Bignum class.
  */
 
@@ -71,6 +71,11 @@ std::ostream& operator<<( std::ostream &flux, Bignum const& nb )
     return nb.display(flux);
 }
 
+std::istream& operator>>( std::istream &flux, Bignum& nb )
+{
+    return nb.enter(flux);
+}
+
 void display(Bignum number)
 {
     number.display(std::cout);
@@ -86,13 +91,14 @@ unsigned long long int pow_int(const unsigned long long int& base, const unsigne
     return result;
 }
 
-/// BigNum functions
+/// BigNum functions /////////////////////////////////////////////////////////////////////////////////
 
 Bignum::Bignum(unsigned long long int base, bool sign) : A_Bignum(0)
 {
     A_IsSigned = false;
     *this += base;
     A_IsSigned = sign;
+    A_Rest.resize(0, 0);
 }
 
 Bignum::Bignum(const Bignum& nb) : A_IsSigned(nb.A_IsSigned)
@@ -100,6 +106,7 @@ Bignum::Bignum(const Bignum& nb) : A_IsSigned(nb.A_IsSigned)
     A_Bignum.resize(nb.A_Bignum.size());
     for(unsigned int i = 0; i < nb.A_Bignum.size(); ++i)
         A_Bignum[i] = nb.A_Bignum[i];
+    A_Rest.resize(0, 0);
 }
 
 std::ostream& Bignum::display(std::ostream &flux) const
@@ -118,6 +125,62 @@ std::ostream& Bignum::display(std::ostream &flux) const
 
     return flux;
 }
+std::istream& Bignum::enter(std::istream &flux)
+{
+    std::string str;
+
+    flux >> str;
+    *this = str;
+
+    return flux;
+}
+
+void Bignum::BigPow(unsigned long long int exponent)
+{
+    Bignum cp(*this);
+    *this = 1;
+
+    for(; exponent > 0; --exponent)
+        *this *= cp;
+}
+
+void Bignum::BigPow(Bignum exponent)
+{
+    Bignum cp(*this);
+    *this = 1;
+
+    for(Bignum i(0); i < exponent; ++i)
+        *this *= cp;
+}
+
+void Bignum::operator=(std::string str)
+{
+    unsigned char value;
+
+    if(str[0] == '-'){
+        A_IsSigned = true;
+        str.erase(str.begin());
+    }
+    else
+        A_IsSigned = false;
+
+    A_Bignum.resize(str.length());
+
+    for(unsigned int i(0); i < str.length(); ++i){
+        value  = str[i] - '0';
+        if(value < 10)
+            A_Bignum[A_Bignum.size() - i - 1] = value;
+        else
+            A_Bignum[A_Bignum.size() - i - 1] = 0;
+    }
+
+    while(!A_Bignum.back())
+        A_Bignum.pop_back();
+    if(!A_Bignum.size())
+        A_IsSigned = false;
+
+    A_Rest.resize(0, 0);
+}
 
 void Bignum::operator=(const unsigned long long int& nb)
 {
@@ -132,13 +195,14 @@ void Bignum::operator=(const Bignum& nb)
     A_Bignum.resize(nb.A_Bignum.size());
     for(unsigned int i = 0; i < nb.A_Bignum.size(); ++i)
         A_Bignum[i] = nb.A_Bignum[i];
+    A_Rest.resize(0, 0);
 }
 
 bool Bignum::operator==(unsigned long long int nb) const
 {
     unsigned char i;
 
-    if(A_IsSigned)
+    if(A_IsSigned || A_Bignum.size() > 20)
         return false;
 
     for(i = 0; nb > 0; ++i, nb /= 10)
@@ -274,10 +338,12 @@ void Bignum::operator+=(unsigned long long int nb)
             nb /= 10;
         }
     }
-    while(A_Bignum.size() > 0 && A_Bignum.back() == 0)
+    while(!A_Bignum.back())
         A_Bignum.pop_back();
     if(A_Bignum.size() <= 0)
         A_IsSigned = false;
+    if(A_Rest.size())
+        A_Rest.resize(0, 0);
 }
 
 void Bignum::operator+=(const Bignum& nb)
@@ -323,16 +389,25 @@ void Bignum::operator+=(const Bignum& nb)
             retenue = value / 10;
         }
     }
-    while(A_Bignum.size() > 0 && A_Bignum.back() == 0)
+    while(!A_Bignum.back())
         A_Bignum.pop_back();
     if(A_Bignum.size() <= 0)
         A_IsSigned = false;
+    if(A_Rest.size())
+        A_Rest.resize(0, 0);
 }
 
 void Bignum::operator-=(unsigned long long int nb)
 {
     unsigned long long int masking(1);
     Bignum cp;
+
+    ///if très Sale!!!
+    if(*this == 0){
+        *this = 1;
+        A_IsSigned = true;
+        return;
+    }
 
     if(A_IsSigned)
     {
@@ -362,10 +437,12 @@ void Bignum::operator-=(unsigned long long int nb)
             }
         }
     }
-    while(A_Bignum.size() > 0 && A_Bignum.back() == 0)
+    while(!A_Bignum.back())
         A_Bignum.pop_back();
     if(A_Bignum.size() <= 0)
         A_IsSigned = false;
+    if(A_Rest.size())
+        A_Rest.resize(0, 0);
 }
 
 void Bignum::operator-=(const Bignum& nb)
@@ -402,10 +479,12 @@ void Bignum::operator-=(const Bignum& nb)
             A_Bignum[i] -= cp.A_Bignum[i];
         }
     }
-    while(A_Bignum.size() > 0 && A_Bignum.back() == 0)
+    while(!A_Bignum.back())
         A_Bignum.pop_back();
     if(A_Bignum.size() <= 0)
         A_IsSigned = false;
+    if(A_Rest.size())
+        A_Rest.resize(0, 0);
 }
 
 void Bignum::operator*=(const unsigned long long int& nb)
@@ -437,7 +516,6 @@ void Bignum::operator*=(const Bignum nb)
             value = nb.A_Bignum[i] * cp.A_Bignum[j] + retenue;
             tab[i].A_Bignum.push_back(value % 10);
             retenue = value / 10;
-            //std::cout << "value " << static_cast<unsigned short int>(value) << std::endl;
         }
         if(retenue)
             tab[i].A_Bignum.push_back(retenue);
@@ -447,6 +525,10 @@ void Bignum::operator*=(const Bignum nb)
         *this += tab[i];
 
     A_IsSigned = A_Bignum.size() && ((cp.A_IsSigned || nb.A_IsSigned) && !(cp.A_IsSigned && nb.A_IsSigned));
+    if(A_Rest.size())
+        A_Rest.resize(0, 0);
+
+    delete tab;
 }
 
 void Bignum::operator/=(const unsigned long long int& nb)
@@ -496,18 +578,30 @@ void Bignum::operator/=(Bignum nb)
                     cp.A_Bignum.push_back(change.A_Bignum[i]);
         }
     }
+    A_Rest.resize(0, 0);
+    for(unsigned long long int i(0); i < cp.A_Bignum.size(); ++i)
+        A_Rest.push_back(cp.A_Bignum[i]);
 
     A_IsSigned = A_Bignum.size() && ((cpSign || cpNbSign) && !(cpSign && cpNbSign));
 }
 
 void Bignum::operator%=(const unsigned long long int& nb)
 {
-
+    Bignum cp_nb(nb);
+    *this %= cp_nb;
 }
 
 void Bignum::operator%=(const Bignum& nb)
 {
+    *this /= nb;
+    A_IsSigned = false;
+    A_Bignum.resize(0, 0);
+    for(unsigned long long int i(0); i < A_Rest.size(); ++i)
+        A_Bignum.push_back(A_Rest[i]);
 
+    while(!A_Bignum.back())
+        A_Bignum.pop_back();
+    A_Rest.resize(0, 0);
 }
 
 Bignum& Bignum::operator++()
@@ -535,14 +629,3 @@ Bignum Bignum::operator--(int)
     --(*this);
     return cp;
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 /** Bignum.h
  * by Blackwolffire
- * 02/13/2015 | 06/15/2015
+ * 02/13/2015 | 07/16/2015
  * Declaration of Bignum class
  */
 
@@ -10,8 +10,6 @@
 #include <iostream>
 #include <vector>
 
-//#define Max_Bignum 1000000
-
 class Bignum
 {
 
@@ -20,6 +18,7 @@ class Bignum
         Bignum(const Bignum& nb);
         //~Bignum();
 
+        void operator=(std::string str);
         void operator=(const unsigned long long int& nb);
         void operator=(const Bignum& nb);
         bool operator==(unsigned long long int nb) const;
@@ -51,10 +50,14 @@ class Bignum
         Bignum operator--(int);
 
         std::ostream& display(std::ostream &flux) const;
+        std::istream& enter(std::istream &flux);
+        void BigPow(unsigned long long int exponent);
+        void BigPow(Bignum exponent);
 
     private:
         std::vector<unsigned char> A_Bignum;
         bool A_IsSigned;
+        std::vector<unsigned char> A_Rest;
 };
 
 Bignum operator+(Bignum a, const unsigned long long int& b);
@@ -68,9 +71,8 @@ Bignum operator/(Bignum a, const Bignum& b);
 Bignum operator%(Bignum a, const unsigned long long int& b);
 Bignum operator%(Bignum a, const Bignum& b);
 
-/// %  pow >> (= string)
-
 std::ostream& operator<<( std::ostream &flux, Bignum const& nb );
+std::istream& operator>>( std::istream &flux, Bignum& nb );
 void display(Bignum number);
 unsigned long long int pow_int(const unsigned long long int& base, const unsigned int& exponent);
 
