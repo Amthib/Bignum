@@ -3,17 +3,17 @@
 	<ActiveTarget name="Debug" />
 	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="159" topLine="0" />
+			<Cursor1 position="247" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Bignum.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1994" topLine="38" />
+			<Cursor1 position="2285" topLine="37" />
 		</Cursor>
 	</File>
 	<File name="Bignum.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1287" topLine="33" />
+			<Cursor1 position="13230" topLine="515" />
 		</Cursor>
 		<Folding>
 			<Collapse line="9" />
@@ -23,31 +23,13 @@
 			<Collapse line="33" />
 			<Collapse line="39" />
 			<Collapse line="45" />
-			<Collapse line="51" />
 			<Collapse line="57" />
 			<Collapse line="63" />
 			<Collapse line="69" />
 			<Collapse line="74" />
+			<Collapse line="79" />
 			<Collapse line="86" />
 			<Collapse line="98" />
-			<Collapse line="106" />
-			<Collapse line="127" />
-			<Collapse line="137" />
-			<Collapse line="146" />
-			<Collapse line="184" />
-			<Collapse line="191" />
-			<Collapse line="200" />
-			<Collapse line="217" />
-			<Collapse line="227" />
-			<Collapse line="232" />
-			<Collapse line="237" />
-			<Collapse line="259" />
-			<Collapse line="281" />
-			<Collapse line="286" />
-			<Collapse line="291" />
-			<Collapse line="296" />
-			<Collapse line="301" />
-			<Collapse line="306" />
 		</Folding>
 	</File>
 </CodeBlocks_layout_file>
