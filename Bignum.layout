@@ -3,12 +3,12 @@
 	<ActiveTarget name="Debug" />
 	<File name="Bignum.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2285" topLine="37" />
+			<Cursor1 position="2285" topLine="22" />
 		</Cursor>
 	</File>
-	<File name="Bignum.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+	<File name="Bignum.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11766" topLine="467" />
+			<Cursor1 position="10289" topLine="409" />
 		</Cursor>
 		<Folding>
 			<Collapse line="9" />
@@ -27,9 +27,9 @@
 			<Collapse line="98" />
 		</Folding>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="60" topLine="0" />
+			<Cursor1 position="154" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

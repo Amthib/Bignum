@@ -468,7 +468,7 @@ void Bignum::operator-=(const Bignum& nb)
     }
     else
     {
-        if(*this < nb)
+        if(*this < nb && *this > 0 || *this < 0 && *this > nb)
         {
             cp = *this;
             *this = nb;
