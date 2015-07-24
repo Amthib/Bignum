@@ -4,10 +4,10 @@ using namespace std;
 
 int main()
 {
-    Bignum nb(713, true), k(1, true), p(4992, true), d;
+    Bignum nb(713), k(1), p(0), d;
 
-    d = nb - p;
-    cout << endl << d;
+    d = p - nb * k;
+    cout << d << endl;
 
     return 0;
 }
