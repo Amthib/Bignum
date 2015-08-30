@@ -7,6 +7,8 @@
 #ifndef BIGNUM_H
 #define BIGNUM_H
 
+#define DEBUG
+
 #include <iostream>
 #include <vector>
 
@@ -52,12 +54,13 @@ class Bignum
 
         std::ostream& display(std::ostream &flux) const;
         std::istream& enter(std::istream &flux);
-        void BigPow(unsigned long long int exponent);
-        void BigPow(Bignum exponent);
+        void BigPow(const unsigned long long int exponent);
+        void BigPow(const Bignum& exponent);
         unsigned long long int getSize() const {return A_Bignum.size();}
         bool getSign() const {return A_IsSigned;}
         std::string compress_Bignum(unsigned int length = 0);
         std::string toString() const;
+        char toChar() const;
 
         static Bignum decompress_Bignum(const std::string& bnb);
 

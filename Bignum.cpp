@@ -1,10 +1,12 @@
 /** Bignum.cpp
  * by Blackwolffire
- * 02/13/2015 | 08/27/2015
+ * 02/13/2015 | 08/30/2015
  * Defines functions for Bignum class.
  */
 
 #include "Bignum.h"
+
+using namespace std;
 
 Bignum operator+(Bignum a, const Bignum& b)
 {
@@ -66,21 +68,21 @@ Bignum operator%(Bignum a, const Bignum& b)
     return a;
 }
 
-std::ostream& operator<<( std::ostream &flux, Bignum const& nb )
+ostream& operator<<( ostream &flux, Bignum const& nb )
 {
     return nb.display(flux);
 }
 
-std::istream& operator>>( std::istream &flux, Bignum& nb )
+istream& operator>>( istream &flux, Bignum& nb )
 {
     return nb.enter(flux);
 }
 
 void display(Bignum number)
 {
-    std::cout << number.getSize() << '\n';
-    number.display(std::cout);
-    std::cout << '\n';
+    cout << number.getSize() << '\n';
+    number.display(cout);
+    cout << '\n';
 }
 
 unsigned long long int pow_int(const unsigned long long int& base, const unsigned int& exponent)
@@ -95,7 +97,7 @@ unsigned long long int pow_int(const unsigned long long int& base, const unsigne
 
 /// BigNum functions /////////////////////////////////////////////////////////////////////////////////
 
-Bignum::Bignum(std::string str)
+Bignum::Bignum(string str)
 {
     *this = str;
 }
@@ -119,7 +121,7 @@ Bignum::Bignum(const Bignum& nb) : A_IsSigned(nb.A_IsSigned)
     A_Rest.resize(0, 0);
 }
 
-std::ostream& Bignum::display(std::ostream &flux) const
+ostream& Bignum::display(ostream &flux) const
 {
     if(A_IsSigned)
         flux << '-';
@@ -133,9 +135,9 @@ std::ostream& Bignum::display(std::ostream &flux) const
     return flux;
 }
 
-std::istream& Bignum::enter(std::istream &flux)
+istream& Bignum::enter(istream &flux)
 {
-    std::string str;
+    string str;
 
     flux >> str;
     *this = str;
@@ -143,25 +145,59 @@ std::istream& Bignum::enter(std::istream &flux)
     return flux;
 }
 
-void Bignum::BigPow(unsigned long long int exponent)
+void Bignum::BigPow(const unsigned long long int exponent)
 {
+    char carac(0);
+    unsigned char percent = 0;
     Bignum cp(*this);
     *this = 1;
 
-    for(; exponent > 0; --exponent)
+#ifdef DEBUG
+    cout << "tu veux ?";
+    cin >> carac;
+    if(carac == 'n')
+        carac = 0;
+#endif
+
+    if(carac)
+        cout << "Chargement Puissance: 0%\n";
+    for(unsigned long long int i(0); i < exponent; ++i){
         *this *= cp;
+        if(carac)
+            if(percent != (i + 1) * 100 / exponent){
+                percent = (i + 1) * 100 / exponent;
+                cout << "Chargement Puissance: " << percent << "%\n";
+            }
+    }
 }
 
-void Bignum::BigPow(Bignum exponent)
+void Bignum::BigPow(const Bignum& exponent)
 {
+    char carac(0);
+    Bignum percent = 0;
     Bignum cp(*this);
     *this = 1;
 
-    for(Bignum i(0); i < exponent; ++i)
+#ifdef DEBUG
+    cout << "tu veux ?";
+    cin >> carac;
+    if(carac == 'n')
+        carac = 0;
+#endif
+
+    if(carac)
+        cout << "Chargement Puissance: 0%\n";
+    for(Bignum i(0); i < exponent; ++i){
         *this *= cp;
+        if(carac)
+            if(percent != (i + 1) * 100 / exponent){
+                percent = (i + 1) * 100 / exponent;
+                cout << "Chargement Puissance: " << percent << "%\n";
+            }
+    }
 }
 
-void Bignum::operator=(std::string str)
+void Bignum::operator=(string str)
 {
     unsigned char value;
 
@@ -523,7 +559,7 @@ void Bignum::operator*=(const Bignum nb)
 {
     unsigned char value, retenue;
     Bignum cp(*this);
-    std::vector<Bignum> tab;
+    vector<Bignum> tab;
     *this = 0;
 
     if(cp == 0 || nb == 0)
@@ -667,10 +703,10 @@ Bignum Bignum::operator--(int)
     return cp;
 }
 
-std::string Bignum::compress_Bignum(unsigned int length)
+string Bignum::compress_Bignum(unsigned int length)
 {
     long long int i(A_Bignum.size() - 1);
-    std::string str("");
+    string str("");
 
     if(!length)
         length = A_Bignum.size();
@@ -678,57 +714,53 @@ std::string Bignum::compress_Bignum(unsigned int length)
     for(; length > A_Bignum.size(); length -= 2)
         str += static_cast<char>(0);
 
-    if(A_Bignum.size() % 2)
-        str += A_Bignum[i--];
+    if(A_Bignum.size() % 2){
+        if(str.length() > 0)
+            str.erase(str.end());
+        str += A_Bignum[i--] & 0x0F;
+    }
 
     for(; i > 0; i -= 2){
         str += (A_Bignum[i] << 4 | A_Bignum[i - 1]);
     }
-
     return str;
 }
 
-std::string Bignum::toString() const
+string Bignum::toString() const
 {
-    std::string result("");
+    string result("");
 
     if(A_IsSigned)
         result += '-';
 
     for(unsigned long long int i (0); i < A_Bignum.size(); ++i)
-        result += A_Bignum[i];
+        result.insert(result.begin(), A_Bignum[i] + '0');
+
+    return result;
 }
+
+char Bignum::toChar() const
+{
+    char carac(0);
+
+    for(unsigned char i(A_Bignum.size()); i > 0; --i)
+        carac = carac * 10 + A_Bignum[i - 1];
+
+    return carac;
+}
+
 
 /// STATIC ////////////////////////////////////////////////////////////////////////
 
-Bignum Bignum::decompress_Bignum(const std::string& bnb)
+Bignum Bignum::decompress_Bignum(const string& bnb)
 {
-    std::string strResult("");
+    string strResult("");
     Bignum result(0);
 
     for(long long int i(0); i < bnb.length(); ++i){
-        strResult.insert(strResult.end(), (bnb[i] >> 4) & 0x0F + '0');
+        strResult.insert(strResult.end(), ((bnb[i] >> 4) & 0x0F) + '0');
         strResult.insert(strResult.end(), (bnb[i] & 0x0F) + '0');
     }
     result = strResult;
     return result;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
