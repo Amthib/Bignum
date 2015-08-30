@@ -7,7 +7,7 @@
 #ifndef BIGNUM_H
 #define BIGNUM_H
 
-#define DEBUG
+//#define DEBUG
 
 #include <iostream>
 #include <vector>

@@ -4,10 +4,13 @@ using namespace std;
 
 int main()
 {
-    Bignum nb(713), k(1), p(0), d;
+    Bignum nb(2, true); // = -2  true c'est le signe
 
-    d = p - nb * k;
-    cout << d << endl;
+	for(;;)
+	{
+		cout << nb << endl;
+		nb *= nb;
+	}
 
     return 0;
 }
